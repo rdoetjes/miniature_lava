@@ -32,7 +32,7 @@ CRGB leds[NUM_LEDS];
 CRGB leds_to[NUM_LEDS];
 
 //pick a random lava color, for each of the lava leds, and set them in the leds_to array
-STATES randomLavaColorFromPalette(CRGB leds[], CRGB leds_to[], int lavaStart, int lavaEnd){
+STATES randomLavaColorFromPalette(CRGB leds_to[], int lavaStart, int lavaEnd){
   for(int i = LAVA_START_LED; i <= LAVA_END_LED; i++) {
     leds_to[i] = ColorFromPalette(LAVA_PALETTE, random(0, 255));
   }
@@ -103,14 +103,14 @@ void setup() {
   for(int i=LAVA_START_LED; i<=LAVA_END_LED; i++) leds[i] = ColorFromPalette(LAVA_PALETTE, random(0, 255));
   
   //initialize the next lava colors to blend towards (this sets state into BLENDING_LAVA_COLORS);
-  STATE = randomLavaColorFromPalette(leds, leds_to, LAVA_START_LED, LAVA_END_LED); 
+  STATE = randomLavaColorFromPalette(leds_to, LAVA_START_LED, LAVA_END_LED); 
 }
 
 void loop() {
   //Select the a for each of the lava leds a random color from the pallete
   if (STATE == SELECT_LAVA_COLORS) { 
     EVERY_N_MILLISECONDS(800) {
-      STATE = randomLavaColorFromPalette(leds, leds_to, LAVA_START_LED, LAVA_END_LED); //moves state into BLENDING_LAVA_COLORS
+      STATE = randomLavaColorFromPalette(leds_to, LAVA_START_LED, LAVA_END_LED); //moves state into BLENDING_LAVA_COLORS
     }
   }
   
